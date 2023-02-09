@@ -1,0 +1,100 @@
+body{
+    font-family: 'Montserrat', sans-serif;
+    background-color: beige;
+    color: darkslategray;
+}
+
+button{
+    border-color: darkseagreen;
+}
+
+h1{
+    text-align: center;
+    padding-top: 10%;    
+}
+
+.master_jeden{
+    background: url("/static/greenbackground.png") no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    min-height: 800px; 
+    width: 100%;
+}
+
+.container{
+        position: relative;
+        text-align: center;
+        min-height: 800px; 
+        width: 100%;
+        /* parallax  */
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        display: block;    
+}
+  
+  
+.jeden{     
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 30px;
+      font-family: 'Montserrat', sans-serif;
+}
+
+#dwa_master{
+    min-height: 800px; 
+}
+
+.dwa{
+    overflow: auto;
+    height: 700px;  
+  }
+
+thead tr{
+    background-color: beige;
+}
+
+.dwa thead th {       
+     position: sticky;
+     top: 0;
+     z-index: 1; 
+     text-align: center;
+     background-color: rgb(228, 228, 205);
+    }
+
+.header{
+    text-align: center;
+    background-color: rgb(228, 228, 205);
+    padding-top: 2%;
+    width: 100%; 
+
+    } 
+
+table{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+    width: 100%; 
+    border-spacing: 50px 0;
+    }
+
+th, td{
+    padding: 8px 16px;
+    }
+
+#myimage{
+    display: none;
+        width: 250px;
+        height: 250px;
+        position: fixed;
+        top: 400;
+        right: 20;
+        z-index: -5;
+     }
+

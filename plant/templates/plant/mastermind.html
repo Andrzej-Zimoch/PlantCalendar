@@ -1,0 +1,367 @@
+<!-- DOCTYPE html-->
+{% load static %}
+
+<html>
+    
+<head>   
+   
+    
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>YOUR PLANT CALENDAR</title>
+        <link rel="stylesheet" href="{% static '/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href ="{% static '/css/base_style.css' %}">
+
+        <script src="{% static '/js/bootstrap.js' %}"></script>
+        <script src="{% static '/js/jquery.js' %}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+
+        <!-- <script src="{% static '/js/jquery.bootstrap.modal.forms.js' %}"></script> -->
+        <!-- You can alternatively load the minified version -->
+        <script src="{% static '/js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+        
+
+    <script>
+
+        var title_list = document.getElementsByClassName("mytitle");
+        var date_list = document.getElementsByClassName("mydate");
+        var water_amount_list = document.getElementsByClassName('water_amount');
+        
+            var x = setInterval(function() 
+            {
+                for (var i=0; i<title_list.length; i++)
+                {
+            
+                    var element = title_list[i].id;
+                    var proto_date = date_list[i].value
+                    var string_date = proto_date.slice(0,-4);
+                    var data = new Date (string_date).getTime();
+        
+                    
+        
+                        var now = new Date().getTime();
+                        var distance = data - now;
+                        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                    
+                        if (distance > 0)
+                        {
+                            document.getElementById(element).innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+                        }
+                        
+                        // If the count down is finished, write some text
+                        if (distance < 0) 
+                        {
+                            var mil = water_amount_list[i].value;
+                            document.getElementById(element).innerHTML = "You need to water it with " +mil+ "mil";
+                            var btitle = "b" + String(element.slice(1));
+                            document.getElementById(btitle).removeAttribute("hidden");
+                            
+                        }
+                }
+        
+            }, 1000);
+
+           
+
+
+            function SetNewWaterDate(clicked_id){
+              new_data = clicked_id.slice(1);     
+              
+            
+              $.ajax({
+                type: 'GET',
+                url: "mastermind/set_date",
+                data: {
+                         plant_id: new_data
+                },
+                success: function (data) 
+                {
+                    
+                    $("#message").html(
+                        [
+                            "<div ",
+                            "style='position:fixed;top:0;z-index:10000;width:100%;border-radius:0;' ",
+                            "class='alert alert-icon alert-success alert-dismissible fade show mb-0' role='alert'>",
+                            "Success: Plant was watered.",
+                            "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>",
+                            "<span aria-hidden='true'>&times;</span>",
+                            "</button>",
+                            "</div>",
+                            "<script>",
+                            "$('.alert').fadeTo(2000, 500).slideUp(500, function () {$('.alert').slideUp(500).remove();});",
+                            "<\/script>",
+                            "<script>",
+                            "async function SMC() {",  
+                            "await new Promise(resolve => setTimeout(resolve, 4000));}",
+                            "SMC();",
+                            "<\/script>",
+                            
+                        ].join("")
+                     );
+                     
+                     setTimeout(function(){window.location.reload(1);}, 3000);
+                    
+                },
+                failure: function(data){
+                    alert("error");
+                }
+                });
+              } 
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+               
+                
+          
+                
+              var asyncSuccessMessageCreate = [
+            "<div ",
+            "style='position:fixed;top:0;z-index:10000;width:100%;border-radius:0;' ",
+            "class='alert alert-icon alert-success alert-dismissible fade show mb-0' role='alert'>",
+            "Success: Book was created.",
+            "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>",
+            "<span aria-hidden='true'>&times;</span>",
+            "</button>",
+            "</div>",
+            "<script>",
+            "$('.alert').fadeTo(2000, 500).slideUp(500, function () {$('.alert').slideUp(500).remove();});",
+            "<\/script>",
+            "<script>",
+                "async function SMC() {",  
+                            "await new Promise(resolve => setTimeout(resolve, 4000));}",
+                            "SMC();",
+                            "<\/script>",
+                            "<script>",
+                "setTimeout(function(){",
+                "window.location.reload(1);",
+                "}, 3000);",
+                
+            "<\/script>",
+          ].join("");
+
+          // modal form
+          
+
+          
+            $("#add_plant").modalForm({
+                formURL: "{% url 'create_plant' %}",
+                modalID: "#create_modal",
+                asyncUpdate: true,
+                asyncSettings: {
+                  closeOnSubmit: false,
+                  successMessage: asyncSuccessMessageCreate,
+                  dataUrl: "mastermind/",
+                  dataElementId: "#plant-table",
+                  dataKey: "table",
+                  addModalFormFunction: reinstantiateModalForms
+                }
+            });
+          
+
+                var asyncSuccessMessageUpdate = [
+            "<div ",
+            "style='position:fixed;top:0;z-index:10000;width:100%;border-radius:0;' ",
+            "class='alert alert-icon alert-success alert-dismissible fade show mb-0' role='alert'>",
+            "Success: Plant was updated.",
+            "</div>",
+            "<script>",
+            "$('.alert').fadeTo(2000, 500).slideUp(500, function () {$('.alert').slideUp(500).remove();});",
+            "<\/script>",
+            "<script>",
+                "setTimeout(function(){",
+                "window.location.reload(1);",
+                "}, 3000);",
+                
+            "<\/script>",
+          ].join("");
+                
+            $(".update_plant").each(function () {
+              $(this).modalForm({
+                formURL: $(this).data("form-url"),
+                asyncUpdate: true,
+                asyncSettings:
+                {
+                    successMessage: asyncSuccessMessageUpdate,
+                    closeOnSubmit: false,
+                    dataUrl: "/mastermind",
+                    dataElementId: "#plant-table",
+                    dataKey: "table",
+                    addModalFormFunction: reinstantiateModalForms
+                }
+                
+              });
+              
+            });
+
+            $(".delete_plant").each(function () {
+                $(this).modalForm({formURL: $(this).data("form-url"), isDeleteForm: true});
+            });
+
+
+            function reinstantiateModalForms() {
+            createBookAsyncModalForm();
+            readBookModalForm();
+            updateBookModalForm();
+            deleteBookModalForm();
+          }
+            
+        });
+
+
+            // modal form
+          
+
+            </script>
+</head>
+<body >
+    <div class="master_jeden" id="master_jeden">
+        <div class="container">
+            <div class="jeden">
+                <h1>YOUR PLANT CALENDAR</h1>
+            </div>
+        </div>
+        
+
+    </div>
+<div id="dwa_master">
+
+
+<div id="dwa" class="dwa">
+
+    <div class="me">
+        <img id="myimage" src="{% static 'chair_icon.png' %}" alt="My image" width="200" height="200" >
+    </div>
+
+    {% block content %}
+               <table >
+                <thead>
+                    <tr>
+                        
+                        
+                        <div id="header" class ="header">
+                            <th></th>
+                            <th></th>
+                            <th> <h2>Your plants:</h2>
+                                <h4>Time to water:</h4>
+                            </th>
+                            <th></th>
+                            <th></th>
+                            <th><button id="add_plant" class="btn btn-info" type="button" name="button">Add plant</button> </th>
+                        </div>
+                        
+                        
+                        
+                    </tr>   
+                </thead>
+                <tbody>
+
+              
+                {% for i in plants %}
+                <tr>
+                    <th>
+                        <h3> {{i.title}}</h3>
+                    </th>
+                    <th>
+                        <img src="media/{{i.photo}}" width="100" height="100">
+                    </th>
+                    <th>
+                        <div class="mytitle" id="t{{i.title}}" ></div>
+                    </th>
+                    <th>
+                        <button type="button" class="update_plant btn btn btn-info" data-form-url="{% url 'update_plant' i.pk %}">
+                            Update
+                          </button>
+                    </th>
+                    <th>
+                        <button type="button" class="delete_plant btn btn-danger" data-form-url="{% url 'delete_plant' i.pk %}">
+                            X
+                          </button>
+                    </th>
+                    <th>
+                        <button id="b{{i.title}}" type="button" class="water_button btn btn-sm btn-success" hidden="hidden" onclick="SetNewWaterDate(this.id)" >WATERED</button>
+            
+                    </th>
+                </tr>
+            
+           
+            
+            <input type="hidden" class="mydate" value="{{i.check_out}}">
+            <input type="hidden" class="water_amount" value="{{i.water_ml}}">
+            
+            
+                {% endfor %}
+                
+                </tbody>
+                </table>
+        
+                
+    {% endblock %}
+    
+
+</div>
+</div>
+ 
+</br>
+
+
+  
+  <!-- Create book button -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content"></div>
+  </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="create_modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content"></div>
+  </div>
+</div>
+           
+<div id="message"></div>
+
+  
+</body>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+    
+    // $('#master_jeden').fadeOut(2000);
+//     history.scrollRestoration = "manual";
+
+    $(window).on('beforeunload', function(){
+      $(window).scrollTop(0);
+        });
+
+        $('html, body').animate({
+         scrollTop: $("#dwa").offset().top
+            }, 3000);
+
+        $('#myimage').fadeIn(7000);
+
+        $('html, body').css({
+        overflow: 'hidden',
+        height: '100%'
+        
+            });
+    $('#myimage').fadeIn(7500);
+     });
+
+// var elem = document.getElementById("dwa");
+// elem.scrollIntoView();
+
+</script>
+
+
+</html>

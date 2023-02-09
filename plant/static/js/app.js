@@ -1,0 +1,1 @@
+$('#master_jeden').fadeOut(5000)
